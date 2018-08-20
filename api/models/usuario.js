@@ -5,7 +5,9 @@ var Schema = mongoose.Schema;
 
 var UsuarioSchema = Schema({
   //Atributos propios
-	nombre: String,
+	nombre: {type: String,
+    unique:true,
+    required: [true, "nombre is neccessary"]
 	apellido: String,
 	alias: String,
 	email: String,
