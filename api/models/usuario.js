@@ -9,7 +9,7 @@ var UsuarioSchema = Schema({
 	apellido: String,
 	alias: String,
 	email: String,
-	contraseña: String,
+	contrasenia: String,
   telefono: String,
   imagen: String,
   //Atributos de clase

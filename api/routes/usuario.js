@@ -10,7 +10,7 @@ var multipart = require('connect-multiparty');
 var md_upload = multipart({uploadDir: './uploads/usuarios'});
 
 api.get('/home',UsuarioController.home);
-api.get('/pruebas',md_auth.ensureAuth,UsuarioController.pruebas);
-api.post('/registro',md_auth.ensureAuth,UsuarioController.guardarUsuario);
+api.get('/pruebas',UsuarioController.pruebas);
+api.post('/registro',UsuarioController.guardarUsuario);
 
 module.exports = api;
