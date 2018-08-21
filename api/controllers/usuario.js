@@ -1,7 +1,6 @@
 'use strict'
 var bcrypt = require('bcrypt-nodejs');
 var Usuario = require('../models/usuario');
-var uniqueValidator = require('mongoose-unique-validator');
 
 function home(req,res){
   res.status(200).send({message: 'Hola mundo desde el servidor de NodeJs'});
@@ -15,7 +14,7 @@ function pruebas(req, res){
 }
 
 //Registro de usuario
-function guardaUsuario(req,res) {
+function guardarUsuario(req,res) {
 	var params = req.body;
 	var usuario = new Usuario();
 
@@ -27,8 +26,8 @@ function guardaUsuario(req,res) {
       usuario.alias = params.alias;
       usuario.email = params.email;
       usuario.telefono = params.telefono;
-      usuario.tipoUsuario = 'TipoUsuario';
-      usuario.localidad = 'Localidad';
+      usuario.tipoUsuario = params.tipoUsuario;
+      usuario.localidad = params.localidad;
       usuario.image = null;
 
       //Controlar usuarios duplicados
@@ -67,8 +66,8 @@ function guardaUsuario(req,res) {
      && params.alias && params.email && params.contraseña ){
       usuario.nombre = params.nombre;
       usuario.email = params.email;
-      usuario.tipoUsuario = 'TipoUsuario';
-      usuario.localidad = 'Localidad';
+      usuario.tipoUsuario = params.tipoUsuario;
+      usuario.localidad = params.localidad;
       usuario.image = null;
       usuario.direccionWeb = params.direccionWeb;
       usuario.direccionEntidad = params.direccionEntidad;
@@ -109,5 +108,5 @@ function guardaUsuario(req,res) {
 module.exports = {
   home,
   pruebas,
-  guardaUsuario
+  guardarUsuario
 }
