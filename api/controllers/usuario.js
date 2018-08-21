@@ -16,24 +16,23 @@ function pruebas(req, res){
 //Registro de usuario
 function guardarUsuario(req,res) {
 	var params = req.body;
-	var user = new Usuario();
+	var usuario = new Usuario();
 
-	if(params.nombre && params.
-	 && params.alias && params.email && params.contrasenia ){
+	if(params.nombre && params.apellido && params.alias && params.email && params.contrasenia ){
 		usuario.nombre = params.nombre;
 		usuario.apellido = params.apellido;
 		usuario.alias = params.alias;
 		usuario.email = params.email;
-		user.imagen = null;
+		usuario.imagen = null;
 
 		//Controlar usuarios duplicados
-		User.find({$or: [
+		Usuario.find({$or: [
 							{email: usuario.email.toLowerCase()},
 							{nick:usuario.alias.toLowerCase()}
 						]
 					}).exec((err, usuarios) => {
 						if(err) return res.status(500).send({message: 'Error en la petición de usuarios'});
-						if(users && usuarios.length >= 1){
+						if(usuarios && usuarios.length >= 1){
 							return res.status(200).send({message:'El usuario ya existe'});
 						}
 					});

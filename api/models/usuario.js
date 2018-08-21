@@ -13,14 +13,14 @@ var UsuarioSchema = Schema({
   telefono: String,
   imagen: String,
   //Atributos de clase
-	tipoUsuario: {type: Schema.ObjectId, ref:'TipoUsuario'},
-	localidad: {type:Schema.ObjectId, ref:'Localidad'},
+	/*tipoUsuario: {type: Schema.ObjectId, ref:'TipoUsuario'},
+	localidad: {type:Schema.ObjectId, ref:'Localidad'},*/
 
   //Atributos no definitivos
-  direccionEntidad: String,
+  /*direccionEntidad: String,
   direccionWeb: String,
   fechaAltaUsuario: String,
-  fechaModificacionUsuario: String,
+  fechaModificacionUsuario: String,*/
 });
 
 module.exports = mongoose.model('Usuario', UsuarioSchema);
