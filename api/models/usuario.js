@@ -13,8 +13,8 @@ var UsuarioSchema = Schema({
   telefono: String,
   imagen: String,
   //Atributos de clase
-	/*tipoUsuario: {type: Schema.ObjectId, ref:'TipoUsuario'},
-	localidad: {type:Schema.ObjectId, ref:'Localidad'},*/
+	tipoUsuario: {type: Schema.ObjectId, ref:'TipoUsuario'},
+	localidad: {type:Schema.ObjectId, ref:'Localidad'},
 
   //Atributos no definitivos
   /*direccionEntidad: String,
