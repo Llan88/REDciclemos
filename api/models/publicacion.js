@@ -7,7 +7,8 @@ var PublicacionSchema = Schema({
 	descripcion: String,
 	imagen: String,
 	fechaCreacion:String,
-	usuario:{type: Schema.ObjectId, ref: 'Usuario'}
+	usuario:{type: Schema.ObjectId, ref: 'Usuario'},
+	reciclaje:{type: Schema.ObjectId, ref: 'Reciclaje'}
 });
 
 module.exports = mongoose.model('Publicacion',PublicacionSchema);
