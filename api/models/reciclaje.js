@@ -6,6 +6,7 @@ var Schema = mongoose.Schema;
 var ReciclajeSchema = Schema({
 	kilosMaterial: String,
 
+	usuario:{type: Schema.ObjectId, ref: 'Usuario'},
 	material:{type: Schema.ObjectId, ref: 'Material'},
 
 });

@@ -6,7 +6,7 @@ var Schema  = mongoose.Schema;
 var SuscripcionSchema = Schema({
   fechaCreacion: String,
   fechaBaja:String,
-  user:{type: Schema.ObjectId, ref: 'Usuario'},
+  usuario_suscripcion:{type: Schema.ObjectId, ref: 'Usuario'},
   material: {type: Schema.ObjectId, ref: 'Material'},
   localidad: {type: Schema.ObjectId, ref: 'Localidad'}
 });
