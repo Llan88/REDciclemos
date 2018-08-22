@@ -24,7 +24,8 @@
     "express": "^4.16.3",
     "jwt-simple": "^0.5.1",
     "moment": "^2.22.2",
-    "mongoose": "^5.2.9"
+    "mongoose": "^5.2.9",
+    "mongoose-pagination": "^1.0.0"
   },
   "devDependencies": {
     "nodemon": "^1.18.3"
