@@ -27,7 +27,7 @@ function guardarPublicacion(req, res){
 //Guardamos varibles de la publicacion
 	publicacion.descripcion = params.text;
 	publicacion.imagen = 'null';
-	publicacion.usuario = req.user.sub;
+	publicacion.usuario = req.usuario.sub;
 	publicacion.fechaCreacion = moment().unix();
   publicacion.reciclaje = 'null';
 
