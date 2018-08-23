@@ -40,7 +40,6 @@ function obtenerDepartamento(req,res){
 //Función para obtener todos los departamentos, con paginación
 function obtenerDepartamentos(req, res){
 	var page = 1;
-
 	if(req.params.page){
 		page = req.params.page;
 	}

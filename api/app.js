@@ -5,6 +5,8 @@ var app = express();
 
 //cargar rutas
 var usuario_routes = require('./routes/usuario');
+
+var usuario_routes = require('./routes/usuario');
 var publicacion_routes = require('./routes/publicacion');
 var localidad_routes = require('./routes/localidad');
 var departamento_routes = require('./routes/departamento');
@@ -19,13 +21,12 @@ app.use(bodyParser.json());
 app.use('/api',usuario_routes);
 app.use('/api', publicacion_routes);
 app.use('/api',departamento_routes);
-<<<<<<< HEAD
 app.use('/api', suscripcion_routes);
-=======
-
-
 app.use('/api', mensaje_routes);
 
 
+
 //exportar
+app.use('/api',localidad_routes);
+app.use('/api',tipoUsuario_routes);
 module.exports = app;
