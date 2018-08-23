@@ -27,8 +27,9 @@ app.use('/api', publicacion_routes);
 app.use('/api',departamento_routes);
 app.use('/api', suscripcion_routes);
 app.use('/api', mensaje_routes);
-
-//exportar
 app.use('/api',localidad_routes);
 app.use('/api',tipoUsuario_routes);
+
+
+//exportar
 module.exports = app;

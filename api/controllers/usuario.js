@@ -2,28 +2,19 @@
 var bcrypt = require('bcrypt-nodejs');
 var Usuario = require('../models/usuario');
 
-function home(req,res){
-  res.status(200).send({message: 'Hola mundo desde el servidor de NodeJs'});
-}
-
-function pruebas(req, res){
-  console.log(req.body);
-  res.status(200).send({
-    message: 'Acción de pruebas en el servidor de NodeJS'
-  });
-}
-
 //Registro de usuario
 function guardarUsuario(req,res) {
 	var params = req.body;
 	var usuario = new Usuario();
 
-	if(params.nombre && params.apellido && params.alias && params.email && params.contrasenia ){
+	if(params.nombre && params.apellido && params.alias && params.email && params.contrasenia && params.localidad ){
 		usuario.nombre = params.nombre;
 		usuario.apellido = params.apellido;
 		usuario.alias = params.alias;
 		usuario.email = params.email;
 		usuario.imagen = null;
+    usuario.tipoUsuario = params.tipoUsuario;
+    usuario.localidad = params.localidad;
 
 		//Controlar usuarios duplicados
 		Usuario.find({$or: [
@@ -59,7 +50,5 @@ function guardarUsuario(req,res) {
 }
 
 module.exports = {
-  home,
-  pruebas,
   guardarUsuario
 }
