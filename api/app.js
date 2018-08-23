@@ -1,18 +1,20 @@
 'use strict'
 var express = require('express');
 var bodyParser = require('body-parser');
-
 var app = express();
 
 //cargar rutas
 var usuario_routes = require('./routes/usuario');
-//<<<<<<< HEAD
+
+var usuario_routes = require('./routes/usuario');
 var publicacion_routes = require('./routes/publicacion');
-//=======
 var localidad_routes = require('./routes/localidad');
 var departamento_routes = require('./routes/departamento');
 var tipoUsuario_routes = require('./routes/tipoUsuario');
-//>>>>>>> 207be3f8388b634219271646b9c105f9ebd9d2dc
+var publicacion_routes = require('./routes/publicacion');
+var suscripcion_routes = require('./routes/suscripcion');
+var mensaje_routes = require('./routes/mensaje');
+
 
 //middlewares
 app.use(bodyParser.urlencoded({extended:false}));
@@ -21,11 +23,11 @@ app.use(bodyParser.json());
 
 //rutas
 app.use('/api',usuario_routes);
-//<<<<<<< HEAD
 app.use('/api', publicacion_routes);
-//=======
 app.use('/api',departamento_routes);
-//>>>>>>> 207be3f8388b634219271646b9c105f9ebd9d2dc
+app.use('/api', suscripcion_routes);
+app.use('/api', mensaje_routes);
+
 //exportar
 app.use('/api',localidad_routes);
 app.use('/api',tipoUsuario_routes);
