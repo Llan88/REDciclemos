@@ -1,6 +1,7 @@
 'use strict'
 var bcrypt = require('bcrypt-nodejs');
 var Usuario = require('../models/usuario');
+var jwt = require('../services/jwt');
 
 //Registro de usuario
 function guardarUsuario(req,res) {
@@ -13,7 +14,7 @@ function guardarUsuario(req,res) {
 		usuario.alias = params.alias;
 		usuario.email = params.email;
 		usuario.imagen = null;
-    usuario.tipoUsuario = params.tipoUsuario;
+    usuario.tipoUsuario = req.params.id;
     usuario.localidad = params.localidad;
 
 		//Controlar usuarios duplicados
@@ -48,7 +49,43 @@ function guardarUsuario(req,res) {
 		});
 	}
 }
+//Loggin
+function loginUsuario(req, res){
+	var params = req.body;
+
+	var email = params.email;
+	var contrasenia = params.contrasenia;
+
+	Usuario.findOne({email: email}, (err, usuario) =>{
+		if(err) return res.status(500).send({message:'Error en la petición'});
+
+		if(usuario){
+			bcrypt.compare(contrasenia, usuario.contrasenia, (err, check) => {
+				if(check){
+					//devolver datos de usuario
+					if(params.gettoken){
+						//generar y devolver token
+						return res.status(200).send({
+							token: jwt.createToken(usuario)
+						});
+					}else{
+						//devolver datos de usuario
+						usuario.contrasenia = undefined;
+						return res.status(200).send({usuario});
+					}
+
+				}else{
+					return res.status(404).send({message: 'El usuario no se ha podido identificar'});
+				}
+			});
+		}else{
+			return res.status(404).send({message: 'El usuario no se ha podido identificar!!'});
+		}
+	});
+
+}
 
 module.exports = {
-  guardarUsuario
+  guardarUsuario,
+	loginUsuario
 }
