@@ -42,8 +42,9 @@ function guardarPublicacion(req, res){
 
 
 //Guardamos varibles de la publicacion
-//<<<<<<< HEAD
-if(publicacion.reciclaje){
+
+
+
 			publicacion.descripcion = params.text;
 			publicacion.imagen = 'null';
 			publicacion.usuario = req.user.sub;
@@ -55,7 +56,7 @@ if(publicacion.reciclaje){
 				return res.status(200).send({publicacion: publicationStored, reciclaje: reciclajeStored});
 			});
 		}
-}
+
 
 function obtenerPublicaciones(req, res){
 		var page = 1;
@@ -104,8 +105,15 @@ function obtenerPublicacion(req,res){
 		if(err) return res.status(500).send({message: 'Error al guardar la publicación'});
 		if(!publicationStored) return res.status(404).send({message:'La publicación no ha sido guardada'});
 		return res.status(200).send({publicacion: publicationStored});
-//>>>>>>> 2bacafc565fb0653a1b9662592a43f9c76995442
 	});
+}
+
+function obtenerPublicaciones(req, res){
+
+}
+
+function obtenerPublicacion(req, res){
+
 }
 
 function eliminarPublicacion(req,res){
