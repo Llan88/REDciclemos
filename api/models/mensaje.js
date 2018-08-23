@@ -6,7 +6,7 @@ var Schema = mongoose.Schema;
 var MensajeSchema = Schema({
   texto: String,
   fechaCreacion: String,
-  visto: String
+  visto: String,
   emisor:{ type: Schema.ObjectId, ref:'Usuario'},
   receptor: { type: Schema.ObjectId, ref:'Usuario'}
 });

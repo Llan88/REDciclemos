@@ -55,6 +55,14 @@ function guardarPublicacion(req, res){
 	});
 }
 
+function obtenerPublicaciones(req, res){
+
+}
+
+function obtenerPublicacion(req, res){
+
+}
+
 function eliminarPublicacion(req,res){
 	var publicacionId = req.params.id;
 
