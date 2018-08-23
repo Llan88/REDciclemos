@@ -3,9 +3,9 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-var TipoSchema = Schema({
-	nombreTipoUsuario: String,
-	fechaBaja: String, //Este atributo no se de que tipo es
+var TipoUsuarioSchema = Schema({
+	nombre: String,
+	fechaBaja: String
 });
 
 module.exports = mongoose.model('TipoUsuario', TipoUsuarioSchema);
