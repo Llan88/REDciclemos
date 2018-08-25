@@ -1,29 +1,21 @@
 'use strict'
 var bcrypt = require('bcrypt-nodejs');
 var Usuario = require('../models/usuario');
-
-function home(req,res){
-  res.status(200).send({message: 'Hola mundo desde el servidor de NodeJs'});
-}
-
-function pruebas(req, res){
-  console.log(req.body);
-  res.status(200).send({
-    message: 'Acción de pruebas en el servidor de NodeJS'
-  });
-}
+var jwt = require('../services/jwt');
 
 //Registro de usuario
 function guardarUsuario(req,res) {
 	var params = req.body;
 	var usuario = new Usuario();
 
-	if(params.nombre && params.apellido && params.alias && params.email && params.contrasenia ){
+	if(params.nombre && params.apellido && params.alias && params.email && params.contrasenia && params.localidad ){
 		usuario.nombre = params.nombre;
 		usuario.apellido = params.apellido;
 		usuario.alias = params.alias;
 		usuario.email = params.email;
 		usuario.imagen = null;
+    usuario.tipoUsuario = req.params.id;
+    usuario.localidad = params.localidad;
 
 		//Controlar usuarios duplicados
 		Usuario.find({$or: [
@@ -57,9 +49,43 @@ function guardarUsuario(req,res) {
 		});
 	}
 }
+//Loggin
+function loginUsuario(req, res){
+	var params = req.body;
+
+	var email = params.email;
+	var contrasenia = params.contrasenia;
+
+	Usuario.findOne({email: email}, (err, usuario) =>{
+		if(err) return res.status(500).send({message:'Error en la petición'});
+
+		if(usuario){
+			bcrypt.compare(contrasenia, usuario.contrasenia, (err, check) => {
+				if(check){
+					//devolver datos de usuario
+					if(params.gettoken){
+						//generar y devolver token
+						return res.status(200).send({
+							token: jwt.createToken(usuario)
+						});
+					}else{
+						//devolver datos de usuario
+						usuario.contrasenia = undefined;
+						return res.status(200).send({usuario});
+					}
+
+				}else{
+					return res.status(404).send({message: 'El usuario no se ha podido identificar'});
+				}
+			});
+		}else{
+			return res.status(404).send({message: 'El usuario no se ha podido identificar!!'});
+		}
+	});
+
+}
 
 module.exports = {
-  home,
-  pruebas,
-  guardarUsuario
+  guardarUsuario,
+	loginUsuario
 }

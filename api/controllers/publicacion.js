@@ -42,18 +42,21 @@ function guardarPublicacion(req, res){
 
 
 //Guardamos varibles de la publicacion
-	publicacion.descripcion = params.text;
-	publicacion.imagen = 'null';
-	publicacion.usuario = req.usuario.sub;
-	publicacion.fechaCreacion = moment().unix();
-  publicacion.reciclaje = 'null';
 
-	publicacion.save((err,publicationStored) => {
-		if(err) return res.status(500).send({message: 'Error al guardar la publicación'});
-		if(!publicationStored) return res.status(404).send({message:'La publicación no ha sido guardada'});
-		return res.status(200).send({publicacion: publicationStored});
-	});
-}
+
+
+			publicacion.descripcion = params.text;
+			publicacion.imagen = 'null';
+			publicacion.usuario = req.user.sub;
+			publicacion.fechaCreacion = moment().unix();
+
+			publicacion.save((err,publicationStored) => {
+				if(err) return res.status(500).send({message: 'Error al guardar la publicación'});
+				if(!publicationStored) return res.status(404).send({message:'La publicación no ha sido guardada'});
+				return res.status(200).send({publicacion: publicationStored, reciclaje: reciclajeStored});
+			});
+		}
+
 
 function obtenerPublicaciones(req, res){
 		var page = 1;
@@ -61,6 +64,7 @@ function obtenerPublicaciones(req, res){
 		if(req.params.page){
 				page = req.params.page;
 		}
+<<<<<<< HEAD
  		var itemsPerPage = 5; //decidir cuantas publicaciones por pagina colocar
 
 		//Obter publicaciones de materiales suscriptos
@@ -79,6 +83,43 @@ function obtenerPublicaciones(req, res){
 
 function obtenerPublicacion(req, res){
 	var publicacionId = req.params.id;
+=======
+
+		var itemsPerPage = 5; //decidir cuantas publicaciones por pagina colocar
+
+//Obter publicaciones de materiales suscriptos
+		Suscripcion.find({usuario_suscripcion: usuarioId}).populate('material').exec((err, suscripciones) => {
+				if(err) return res.status(500).send({message: 'Error al devolver las suscripciones'});
+
+				if(!suscripciones) return res.status(404).send({message: 'No se encuentran suscripciones asociadas'});
+
+				var suscripciones_material =[];
+
+				suscripciones.forEach((suscripcion) => {
+						suscripciones_material.push(suscripcion.material);
+				});
+
+				console.log(suscripciones_material);
+
+				//Reciclaje.find()
+				//(cambiar por publicacion) Reciclaje.find({material: {"$in": suscripciones_material}}).sort('-created_at').populate('usuario').paginate(page, itemsPerPage, (err, publicaciones))
+		});
+
+}
+
+function obtenerPublicacion(req,res){
+	var publicacionId = req.params.id;
+
+	Publicacion.findById(publicacionId,(err, publicacion)=>{
+		if(err) return res.status(500).send({message:'Error al devolver la publicación'});
+		if(!publicacion) return res.status(404).send({message:'No existe la publicacion'});
+		return res.status(200).send({publicacion});
+});
+}
+
+
+function obtenerPublicaciones(req, res){
+>>>>>>> aafddc10e22766bed898d97862a7ddf654645f67
 
 	Publicacion.findById(publicacionId,(err, publication)=>{
 		if(err) return res.status(500).send({message:'Error al devolver la publicación'});
@@ -86,6 +127,7 @@ function obtenerPublicacion(req, res){
 		return res.status(200).send({publication});
 	});
 }
+
 
 function eliminarPublicacion(req,res){
 	var publicacionId = req.params.id;

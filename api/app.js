@@ -32,5 +32,4 @@ app.use('/api',tipoUsuario_routes);
 
 
 //exportar
-
 module.exports = app;
