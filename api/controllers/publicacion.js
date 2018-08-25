@@ -56,11 +56,35 @@ function guardarPublicacion(req, res){
 }
 
 function obtenerPublicaciones(req, res){
+		var page = 1;
+		var usuarioId = req.user.sub;
+		if(req.params.page){
+				page = req.params.page;
+		}
+ 		var itemsPerPage = 5; //decidir cuantas publicaciones por pagina colocar
 
-}
+		//Obter publicaciones de materiales suscriptos
+		Suscripcion.find({usuario_suscripcion: usuarioId}).populate('material').exec((err, suscripciones) => {
+				if(err) return res.status(500).send({message: 'Error al devolver las suscripciones'});
+ 				if(!suscripciones) return res.status(404).send({message: 'No se encuentran suscripciones asociadas'});
+ 				var suscripciones_material =[];
+ 				suscripciones.forEach((suscripcion) => {
+						suscripciones_material.push(suscripcion.material);
+				});
+ 				console.log(suscripciones_material);
+ 				//Reciclaje.find()
+				//(cambiar por publicacion) Reciclaje.find({material: {"$in": suscripciones_material}}).sort('-created_at').populate('usuario').paginate(page, itemsPerPage, (err, publicaciones))
+		});
+ }
 
 function obtenerPublicacion(req, res){
+	var publicacionId = req.params.id;
 
+	Publicacion.findById(publicacionId,(err, publication)=>{
+		if(err) return res.status(500).send({message:'Error al devolver la publicación'});
+		if(!publication) return res.status(404).send({message:'No existe la publicacion'});
+		return res.status(200).send({publication});
+	});
 }
 
 function eliminarPublicacion(req,res){
