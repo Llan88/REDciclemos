@@ -64,26 +64,7 @@ function obtenerPublicaciones(req, res){
 		if(req.params.page){
 				page = req.params.page;
 		}
-<<<<<<< HEAD
- 		var itemsPerPage = 5; //decidir cuantas publicaciones por pagina colocar
 
-		//Obter publicaciones de materiales suscriptos
-		Suscripcion.find({usuario_suscripcion: usuarioId}).populate('material').exec((err, suscripciones) => {
-				if(err) return res.status(500).send({message: 'Error al devolver las suscripciones'});
- 				if(!suscripciones) return res.status(404).send({message: 'No se encuentran suscripciones asociadas'});
- 				var suscripciones_material =[];
- 				suscripciones.forEach((suscripcion) => {
-						suscripciones_material.push(suscripcion.material);
-				});
- 				console.log(suscripciones_material);
- 				//Reciclaje.find()
-				//(cambiar por publicacion) Reciclaje.find({material: {"$in": suscripciones_material}}).sort('-created_at').populate('usuario').paginate(page, itemsPerPage, (err, publicaciones))
-		});
- }
-
-function obtenerPublicacion(req, res){
-	var publicacionId = req.params.id;
-=======
 
 		var itemsPerPage = 5; //decidir cuantas publicaciones por pagina colocar
 
@@ -119,7 +100,6 @@ function obtenerPublicacion(req,res){
 
 
 function obtenerPublicaciones(req, res){
->>>>>>> aafddc10e22766bed898d97862a7ddf654645f67
 
 	Publicacion.findById(publicacionId,(err, publication)=>{
 		if(err) return res.status(500).send({message:'Error al devolver la publicación'});
