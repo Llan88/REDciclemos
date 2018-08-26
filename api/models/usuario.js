@@ -12,6 +12,7 @@ var UsuarioSchema = Schema({
 	contrasenia: String,
   telefono: String,
   imagen: String,
+	fechaCreacion: String,
   //Atributos de clase
 	tipoUsuario: {type: Schema.ObjectId, ref:'TipoUsuario'},
 	localidad: {type:Schema.ObjectId, ref:'Localidad'},

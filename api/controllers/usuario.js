@@ -16,6 +16,7 @@ function guardarUsuario(req,res) {
 		usuario.imagen = null;
     usuario.tipoUsuario = req.params.id;
     usuario.localidad = params.localidad;
+		usuario.fechaCreacion = moment().unix();
 
 		//Controlar usuarios duplicados
 		Usuario.find({$or: [
