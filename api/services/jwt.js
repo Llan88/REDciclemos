@@ -13,6 +13,7 @@ exports.createToken = function(user){
 		email: user.email,
 		role: user.tipoUsuario,
 		image: user.imagen,
+		localidad: user.localidad,
 		iat: moment().unix(),
 		exp: moment().add(30,'days').unix
 	};
