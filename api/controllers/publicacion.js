@@ -27,6 +27,9 @@ function guardarPublicacion(req, res){
 
 	if(!params.text || !params.kilosMaterial) return res.status(200).send({message:'Debes enviar un texto!!'});
 
+var reciclajeid;
+
+var reciclajeGuardado;
 //Generamos a reciclaje
 	reciclaje.kilosMaterial = params.kilosMaterial;
 	reciclaje.usuario = req.user.sub;
@@ -36,15 +39,12 @@ function guardarPublicacion(req, res){
 				if(err) return res.status(500).send({message:'Error al guardar reciclaje'});
 				if(!reciclajeStored) return res.status(404).send({message: 'El reciclaje NO ha sido guardado'});
 				//relacionar reciclaje con publicacion
-				publicacion.reciclaje = reciclajeStored._id;
+				reciclajeid = reciclajeStored._id;
+				reciclajeGuardado = reciclajeStored;
 			 // res.status(200).send({reciclaje: reciclajeStored});
 	});
-
-
 //Guardamos varibles de la publicacion
-
-
-
+			publicacion.reciclaje;
 			publicacion.descripcion = params.text;
 			publicacion.imagen = 'null';
 			publicacion.usuario = req.user.sub;
@@ -53,41 +53,72 @@ function guardarPublicacion(req, res){
 			publicacion.save((err,publicationStored) => {
 				if(err) return res.status(500).send({message: 'Error al guardar la publicación'});
 				if(!publicationStored) return res.status(404).send({message:'La publicación no ha sido guardada'});
-				return res.status(200).send({publicacion: publicationStored, reciclaje: reciclajeStored});
+				return res.status(200).send({publicacion: publicationStored, reciclaje: reciclajeGuardado});
 			});
 		}
 
-
-function obtenerPublicaciones(req, res){
+function getPublicaciones(req, res){
 		var page = 1;
 		var usuarioId = req.user.sub;
 		if(req.params.page){
 				page = req.params.page;
 		}
-
-
 		var itemsPerPage = 5; //decidir cuantas publicaciones por pagina colocar
 
-//Obter publicaciones de materiales suscriptos
-		Suscripcion.find({usuario_suscripcion: usuarioId}).populate('material').exec((err, suscripciones) => {
-				if(err) return res.status(500).send({message: 'Error al devolver las suscripciones'});
+//Obter todas las publicaciones
+Publicacion.find({}).sort('fechaCreacion').populate('usuario').paginate(page, itemsPerPage, (err, publicaciones, total) => {
+	if(err) return res.status(500).send({message: 'Error en la petición'});
 
-				if(!suscripciones) return res.status(404).send({message: 'No se encuentran suscripciones asociadas'});
+	if(!publicaciones) return res.status(404).send({message: 'No hay usuarios disponibles'});
 
-				var suscripciones_material =[];
+	return res.status(200).send({
+		publicaciones,
+		total,
+		page: Math.ceil(total/itemsPerPage)
+		});
 
-				suscripciones.forEach((suscripcion) => {
-						suscripciones_material.push(suscripcion.material);
+});
+}
+// busccar publicaciones por material
+function getPublicacionesMaterial(req, res){
+		var materialId = req.id;
+		var page= 1;
+		if(req.params.page){
+				page = req.params.page;
+		}
+		var itemsPerPage = 5;
+
+		if(!materialId){
+				return res.status(500).send({message: 'Error al enviar peticion material'});
+		}else{
+
+			Reciclaje.find({material: materialId}).populate('material').exec((err,reciclajes) => {
+
+				if(err) return res.status(500).send({message:'Error al devolver el material'});
+
+				var reciclajes_mat = [];
+
+				reciclajes.forEach((reciclaje) => {
+					reciclajes_mat.push(reciclaje.material);
 				});
 
-				console.log(suscripciones_material);
+				Publicacion.find({reciclaje: {"$in": reciclajes_mat}}).sort('-fechaCreacion').populate('reciclaje').paginate(page, itemsPerPage, (err, publicaciones, total) => {
 
-				//Reciclaje.find()
-				//(cambiar por publicacion) Reciclaje.find({material: {"$in": suscripciones_material}}).sort('-created_at').populate('usuario').paginate(page, itemsPerPage, (err, publicaciones))
+					if(err) return res.status(500).send({message: 'Error en la petición'});
+
+					if(!publicaciones) return res.status(404).send({message: 'No hay publicaciones de este material disponibles'});
+
+					return res.status(200).send({
+						publicaciones,
+						total,
+						page: Math.ceil(total/itemsPerPage)
+						});
+				});
 		});
 
 }
-
+}
+//obtener solo una publicacion
 function obtenerPublicacion(req,res){
 	var publicacionId = req.params.id;
 
@@ -98,15 +129,6 @@ function obtenerPublicacion(req,res){
 });
 }
 
-
-function obtenerPublicaciones(req, res){
-
-	Publicacion.findById(publicacionId,(err, publication)=>{
-		if(err) return res.status(500).send({message:'Error al devolver la publicación'});
-		if(!publication) return res.status(404).send({message:'No existe la publicacion'});
-		return res.status(200).send({publication});
-	});
-}
 
 
 function eliminarPublicacion(req,res){
@@ -157,12 +179,28 @@ function subirImagen(req, res){
  	}
  }
 
+ function getImageFile(req, res){
+ 	var image_file = req.params.imageFile;
+ 	var path_file = './uploads/publicaciones/'+image_file;
+
+ 	fs.exists(path_file, (exists) =>{
+ 		if(exists){
+ 			res.sendFile(path.resolve(path_file));
+ 		}else{
+ 			res.status(200).send({message: 'No existe la imagen'});
+ 		}
+ 	});
+
+ }
+
 module.exports = {
   probando,
   guardarPublicacion,
-	obtenerPublicaciones,
+	getPublicaciones,
+	getPublicacionesMaterial,
 	obtenerPublicacion,
 	eliminarPublicacion,
-	subirImagen
+	subirImagen,
+	getImageFile
 
 }
