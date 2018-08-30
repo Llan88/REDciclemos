@@ -10,7 +10,7 @@ var md_upload = multipart({uploadDir:'./uploads/publicaciones'});
 
 api.get('/probando',PublicationController.probando);
 api.post('/publicacion',md_auth.ensureAuth,PublicationController.guardarPublicacion);
-api.get('/publicaciones/:page?',md_auth.ensureAuth,PublicationController.obtenerPublicaciones);
-
+api.get('/publicaciones/:page?',md_auth.ensureAuth,PublicationController.getPublicaciones);
+api.get('/publicaciones/:id/:page?',md_auth.ensureAuth,PublicationController.getPublicacionesMaterial);
 
 module.exports = api;
