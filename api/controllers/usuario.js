@@ -8,14 +8,14 @@ function guardarUsuario(req,res) {
 	var params = req.body;
 	var usuario = new Usuario();
 
-	if(params.nombre && params.apellido && params.alias && params.email && params.contrasenia && params.localidad ){
+	if(params.nombre && params.apellido && params.alias && params.email && params.contrasenia ){
 		usuario.nombre = params.nombre;
 		usuario.apellido = params.apellido;
 		usuario.alias = params.alias;
 		usuario.email = params.email;
 		usuario.imagen = null;
-    usuario.tipoUsuario = req.params.id;
-    usuario.localidad = params.localidad;
+    //usuario.tipoUsuario = req.params.id;
+    usuario.localidad = req.params.localidad;
 		usuario.fechaCreacion = moment().unix();
 
 		//Controlar usuarios duplicados
