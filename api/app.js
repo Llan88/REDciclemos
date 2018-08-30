@@ -15,6 +15,7 @@ var mensaje_routes = require('./routes/mensaje');
 var tipoUsuario_routes = require('./routes/tipoUsuario');
 
 
+
 //middlewares
 app.use(bodyParser.urlencoded({extended:false}));
 app.use(bodyParser.json());
@@ -29,6 +30,7 @@ app.use('/api', suscripcion_routes);
 app.use('/api', mensaje_routes);
 app.use('/api',localidad_routes);
 app.use('/api',tipoUsuario_routes);
+
 
 
 //exportar

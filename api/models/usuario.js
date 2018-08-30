@@ -12,15 +12,16 @@ var UsuarioSchema = Schema({
 	contrasenia: String,
   telefono: String,
   imagen: String,
+	fechaCreacion: String,
+	fechaModificacion: String,
   //Atributos de clase
 	tipoUsuario: {type: Schema.ObjectId, ref:'TipoUsuario'},
 	localidad: {type:Schema.ObjectId, ref:'Localidad'},
 
-  //Atributos no definitivos
-  /*direccionEntidad: String,
+  //Atributos entidad
+  direccionEntidad: String,
   direccionWeb: String,
-  fechaAltaUsuario: String,
-  fechaModificacionUsuario: String,*/
+
 });
 
 module.exports = mongoose.model('Usuario', UsuarioSchema);

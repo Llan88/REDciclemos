@@ -10,8 +10,10 @@ var multipart = require('connect-multiparty');
 var md_upload = multipart({uploadDir: './uploads/usuarios'});
 
 //Rutas
-api.post('/registro/:id',UsuarioController.guardarUsuario);
+api.post('/registroUsuario/:id1/:id2',UsuarioController.guardarUsuario);
 api.post('/login',UsuarioController.loginUsuario);
+api.put('/updateUsuario/:id',UsuarioController.updateUsuario);
+
 
 
 //Exports
