@@ -131,5 +131,5 @@ function loginUsuario(req, res){
 module.exports = {
   guardarUsuario,
 	loginUsuario,
-	updateUsuario
+	//updateUsuario
 }

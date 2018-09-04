@@ -8,7 +8,7 @@ import { PublicacionService } from '../../services/publicacion.service';
 @Component({
   selector: 'publicacion',
   templateUrl: './publicacion.component.html',
-  providers: [UserService, PublicacionService]
+  providers: [ PublicacionService] //UserService,
 })
 
 export class PublicacionesComponent implements OnInit{
@@ -36,8 +36,8 @@ export class PublicacionesComponent implements OnInit{
         console.log("COmponentes de publicaciones se cargo");
     }
 
-    getPublicaciones(page){
+    //getPublicaciones(page){
 
-    }
+    //}
 
 }
