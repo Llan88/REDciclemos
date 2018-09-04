@@ -18,7 +18,7 @@ function guardarUsuario(req,res) {
 	var prueba = false;
 	var entidad = "Entidad";
 
-<<<<<<< HEAD
+
 if(!idTipoUsuario){
 	return res.status(500).send({message:'Tipo de Usuario no enviado'});
 }
@@ -35,7 +35,7 @@ var nombreTipoUsuario;
 	});
 
 	if(nombreTipoUsuario == 'Entidad'){
-		console.log('Entro');
+		
 		if(params.nombre && params.direccionEntidad && params.email && params.contrasenia){
 			usuario.nombre = params.nombre;
 			usuario.email = params.email;
@@ -52,29 +52,16 @@ var nombreTipoUsuario;
 }
 	if(nombreTipoUsuario == 'Ciudadano'){
 	if(params.nombre && params.apellido && params.alias && params.email && params.contrasenia && params.localidad ){
-=======
-<<<<<<< HEAD
-	if(params.nombre && params.apellido && params.alias && params.email && params.contrasenia ){
-=======
-	if(params.nombre && params.apellido
-	 && params.alias && params.email && params.contrasenia ){
->>>>>>> 8e2fa294200a6094584663066d213f5ffa770007
->>>>>>> c5145df9b00db1e7478e2b8c66d521553e0baa68
+
 		usuario.nombre = params.nombre;
 		usuario.apellido = params.apellido;
 		usuario.alias = params.alias;
 		usuario.email = params.email;
 		usuario.imagen = null;
-<<<<<<< HEAD
     //usuario.tipoUsuario = req.params.id;
     usuario.localidad = req.params.localidad;
 		usuario.fechaCreacion = moment().unix();
-=======
-		usuario.tipoUsuario = req.params.id1;
-		usuario.localidad = req.params.id2;
->>>>>>> 8e2fa294200a6094584663066d213f5ffa770007
 
-<<<<<<< HEAD
 prueba = true;
 	}
 }
@@ -100,30 +87,6 @@ Usuario.find({$or: [
 				if(err) return res.status(500).send({message: 'Error en la petición de usuarios'});
 				if(usuarios && usuarios.length >= 1){
 					return res.status(200).send({message:'El usuario ya existe'});
-=======
-		//Controlar usuarios duplicados
-		Usuario.find({$or: [
-							{email: usuario.email.toLowerCase()},
-							{alias:usuario.alias.toLowerCase()}
-						]
-					}).exec((err, usuarios) => {
-						if(err) return res.status(500).send({message: 'Error en la petición de usuarios'});
-						if(usuarios && usuarios.length >= 1){
-							return res.status(200).send({message:'El usuario ya existe'});
-						}
-					});
-
-		//Cifra la contraseña y guarda los datos
-		bcrypt.hash(params.contrasenia, null, null, (err, hash) =>{
-			usuario.contrasenia = hash;
-
-			usuario.save((err, usuarioStored) => {
-				if(err) return res.status(500).send({message: 'Error al guardar el usuario'}); //Clausula de guarda
-				if(usuarioStored){
-					res.status(200).send({usuario: usuarioStored});
-				}else{
-					res.status(404).send({message: 'No se ha registrado el usuario'});
->>>>>>> c5145df9b00db1e7478e2b8c66d521553e0baa68
 				}
 			});
 
