@@ -1,13 +1,52 @@
 'use strict'
 var bcrypt = require('bcrypt-nodejs');
+//var fs= require('fs');
+//var path = require('path');
+var moment = require('moment');
 var Usuario = require('../models/usuario');
+var TipoUsuario = require('../models/tipoUsuario');
 var jwt = require('../services/jwt');
 
 //Registro de usuario
 function guardarUsuario(req,res) {
 	var params = req.body;
 	var usuario = new Usuario();
+	var idTipoUsuario = req.params.id;
+	var prueba = false;
+	var entidad = "Entidad";
 
+if(!idTipoUsuario){
+	return res.status(500).send({message:'Tipo de Usuario no enviado'});
+}
+var nombreTipoUsuario;
+	TipoUsuario.findOne({_id: idTipoUsuario}, (err, tipoUsuario) => {
+		if(err) return res.status(500).send({message:'Error en la petición'});
+
+	 if(!tipoUsuario)res.status(404).send({message: 'No se ha registrado el usuario'});
+
+	 nombreTipoUsuario = tipoUsuario.nombre;
+	 //nombreTipoUsuario = nombreTipoUsuario.toString('utf-8').trim();
+
+	 	console.log(nombreTipoUsuario);
+	});
+
+	if(nombreTipoUsuario == 'Entidad'){
+		console.log('Entro');
+		if(params.nombre && params.direccionEntidad && params.email && params.contrasenia){
+			usuario.nombre = params.nombre;
+			usuario.email = params.email;
+			usuario.imagen = null;
+			usuario.tipoUsuario = req.params.id;
+			usuario.localidad = params.localidad;
+			usuario.fechaCreacion = moment().unix();
+			usuario.direccionEntidad =  params.direccionEntidad;
+			usuario.direccionWeb = params.direccionWeb;
+			usuario.telefono = params.telefono;
+
+			prueba = true;
+	}
+}
+	if(nombreTipoUsuario == 'Ciudadano'){
 	if(params.nombre && params.apellido && params.alias && params.email && params.contrasenia && params.localidad ){
 		usuario.nombre = params.nombre;
 		usuario.apellido = params.apellido;
@@ -18,37 +57,50 @@ function guardarUsuario(req,res) {
     usuario.localidad = params.localidad;
 		usuario.fechaCreacion = moment().unix();
 
-		//Controlar usuarios duplicados
-		Usuario.find({$or: [
-							{email: usuario.email.toLowerCase()},
-							{nick:usuario.alias.toLowerCase()}
-						]
-					}).exec((err, usuarios) => {
-						if(err) return res.status(500).send({message: 'Error en la petición de usuarios'});
-						if(usuarios && usuarios.length >= 1){
-							return res.status(200).send({message:'El usuario ya existe'});
-						}
-					});
+prueba = true;
+	}
+}
+	if(nombreTipoUsuario == 'Administrador'){
+		if(params.nombre && params.apellido && params.contrasenia){
+			usuario.nombre = params.nombre;
+			usuario.apellido = params.apellido;
+			usuario.email = params.email;
+			usuario.imagen = null;
+			usuario.tipoUsuario = req.params.id;
+			usuario.fechaCreacion = moment().unix();
 
-		//Cifra la contraseña y guarda los datos
-		bcrypt.hash(params.contrasenia, null, null, (err, hash) =>{
-			usuario.contrasenia = hash;
-
-			usuario.save((err, usuarioGuardado) => {
-				if(err) return res.status(500).send({message: 'Error al guardar el usuario'}); //Clausula de guarda
-				if(usuarioGuardado){
-					res.status(200).send({usuario: usuarioGuardado});
-				}else{
-					res.status(404).send({message: 'No se ha registrado el usuario'});
+prueba = true;
+	}
+}
+if(prueba){
+//Controlar usuarios duplicados
+Usuario.find({$or: [
+					{email: usuario.email.toLowerCase()}
+					//,					{alias:usuario.alias.toLowerCase()}
+				]
+			}).exec((err, usuarios) => {
+				if(err) return res.status(500).send({message: 'Error en la petición de usuarios'});
+				if(usuarios && usuarios.length >= 1){
+					return res.status(200).send({message:'El usuario ya existe'});
 				}
 			});
-		});
 
-	}else{
-		res.status(200).send({
-			message: 'Envia todos los campos necesarios!!'
-		});
-	}
+//Cifra la contraseña y guarda los datos
+bcrypt.hash(params.contrasenia, null, null, (err, hash) =>{
+	usuario.contrasenia = hash;
+
+	usuario.save((err, usuarioGuardado) => {
+		if(err) return res.status(500).send({message: 'Error al guardar el usuario'}); //Clausula de guarda
+		if(usuarioGuardado){
+			res.status(200).send({usuario: usuarioGuardado});
+		}else{
+			res.status(404).send({message: 'No se ha registrado el usuario'});
+		}
+	});
+});
+}else{
+		res.status(404).send({message: 'Datos incorrectos para tipo de usuario'});
+}
 }
 //Loggin
 function loginUsuario(req, res){
