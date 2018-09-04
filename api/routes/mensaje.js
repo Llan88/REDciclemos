@@ -8,5 +8,8 @@ var api = express.Router();
 //rutas
 api.get('/prueba', MessageController.prueba);
 api.post('/saveMensaje', MessageController.saveMensaje);
+api.get('/mi-mensaje/:page?',  MessageController.getReceivedMensajes);
+api.get('/novisto-mensaje',  MessageController.getnoVistoMensajes);
+api.get('/set-visto-mensaje', MessageController.setVistoMensajes);
 
 module.exports = api;
