@@ -1,0 +1,71 @@
+/*GENERALES*/
+
+/*.h1-strong{
+	font-size: 35px;
+	font-weight: bold;
+	/*margin-left: 13px;
+	margin-bottom: 20px;
+	padding-bottom: 15px;
+	border-bottom: 1px solid #eee;
+
+}*/
+
+/*CABECERA*/
+.navigation{
+  padding: 0px !important;
+
+}
+.navigation .navbar{
+  margin: 0px !important;
+  padding: 0px !important;
+  border: none;
+  border-radius: 0px;
+  background-color: #609916;
+  /*height: 95px;*/
+}
+
+.navigation .navbar *{
+  color: #fff !important;
+  font-family: Cocogoose Regular ;
+}
+.navigation .navbar-header{
+  width: 45px;
+	height: 45px;
+	border-radius: 100px;
+	overflow: hidden;
+  /*margin-top: 10px;*/
+  /*margin-right: 2px;*/
+}
+.navigation .navbar-header .navbar-brand .img{
+  height: auto;
+  width:  auto;
+}
+/*FOOTER*/
+#footer{
+  /*background-color: #609916;*/
+  font-family: Cocogoose Regular ;
+  color: #fff !important;
+  border-radius: 0px;
+  height: 95px;
+  padding: 0px !important;
+
+}
+.panel-default{
+  padding: 0px !important;
+  margin: 0px !important;
+  border-radius: 0px;
+}
+/*.panel-body{
+  height: 565px;
+}*/
+#primera{
+  background-color: yellow;
+  text-align: center;
+}
+#segunda{
+  background-color: red;
+  text-align: center;
+}
+#ultima{
+  background-color: green;
+}
